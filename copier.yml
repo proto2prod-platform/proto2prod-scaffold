@@ -1,0 +1,31 @@
+# Copier configuration for the Proto2Prod project scaffold
+_subdirectory: "{{project_slug}}" # Tells copier to use the nested folder as the template root
+
+# Questions to ask the user
+project_slug:
+  type: str
+  help: A short, descriptive name for the project repository (e.g., my-cool-api). No spaces or special chars.
+
+project_name:
+  type: str
+  help: The human-readable name of the project (e.g., My Cool API).
+  default: "{{ project_slug | title }}" # Default to title-cased slug
+
+description:
+  type: str
+  help: A brief description of the project.
+  default: "A new Proto2Prod project"
+
+author_name:
+  type: str
+  help: Author's full name.
+  default: "Your Name" # Consider fetching from git config if possible/desired
+
+version:
+  type: str
+  help: Initial project version (SemVer).
+  default: "0.1.0"
+
+# Placeholder for tasks/hooks if needed later
+# _tasks:
+#  - hooks/docstring_gen.py

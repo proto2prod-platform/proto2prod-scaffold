@@ -1,0 +1,7 @@
+{
+  "project_slug": "{{ project_slug }}",
+  "project_name": "{{ project_name }}",
+  "description": "{{ description }}",
+  "author_name": "{{ author_name }}",
+  "version": "{{ version }}"
+}
