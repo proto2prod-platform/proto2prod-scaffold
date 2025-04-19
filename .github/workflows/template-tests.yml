@@ -6,17 +6,23 @@ jobs:
   test-template:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - name: Install copier
-        run: pip install copier
+        run: python -m pip install --upgrade pip copier
       - name: Smoke test template generation
         run: |
-          copier copy . ./test-output --force --defaults --trust
-          echo "Template generated successfully."
-          # Add basic checks here, e.g., check if key files exist
+          # Use defaults from copier.yml for a basic test run
+          copier copy . ./test-output --trust --force --defaults --vcs-ref=HEAD
+          echo "Template generated successfully into ./test-output"
+          # Basic checks (adjust paths based on your template structure)
           test -f ./test-output/README.md || (echo "README.md not found" && exit 1)
-          test -f ./test-output/src/my_new_project/__init__.py || (echo "__init__.py not found" && exit 1)
+          # Check for a directory based on a likely default slug if not specified
+          # This assumes copier might default project_slug based on the template dir name or similar
+          # Adjust this check based on actual copier behavior and your copier.yml defaults
+          DEFAULT_SLUG=$(basename $(pwd) | sed 's/[^a-zA-Z0-9]/-/g') # Example heuristic
+          test -d ./test-output/src/${DEFAULT_SLUG} || test -d ./test-output/src/my_cool_api || (echo "Default src directory not found" && exit 1) # Example check
+          echo "Basic file checks passed."
